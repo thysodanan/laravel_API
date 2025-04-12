@@ -23,11 +23,10 @@ class AuthController extends Controller
             ],422);
         }
         $credentials=$request->only('email','password');
-
         if(Auth::attempt($credentials)){
             $token=Auth::user()->createToken('API Token')->plainTextToken;
             return response([
-               'status'=>true,
+                'status'=>true,
                 'token'=>$token,
                 'message'=>'login successfully'
             ],200);

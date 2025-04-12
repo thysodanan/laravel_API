@@ -9,7 +9,45 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
-  
+
+  // public function index(){
+  //       $products=array(
+  //           [
+  //               'name'=>'Product 1',
+  //               'price'=>100,
+  //               'desc'=>'this is a product',
+  //               'qty'=>12,
+  //               'image'=>null
+  //           ],
+  //           [
+  //               'name'=>'Product 2',
+  //               'price'=>200,
+  //               'desc'=>'this is a product',
+  //               'qty'=>34,
+  //               'image'=>null
+  //           ],
+  //           );
+  //   return response([
+  //       'status' => true,
+  //       'products' => $products,
+  //       "message"=>" thy sodanan",
+
+  //   ],200);
+  // }
+  // public function store(Request $request){
+  //   $product=[];
+  //   array_push($product,[
+  //               'name'=>$request->name,
+  //               'price'=>$request->price,
+  //               'desc'=>$request->desc,
+  //               'qty'=>$request->qty,
+  //            ]);
+  //   return response([
+  //       'status' => true,
+  //       'products' => $product,
+  //       "message"=>"product created successfully",
+  //   ],201);
+  // }
     public function index(){
         // $products=array(
         //     [
@@ -60,6 +98,10 @@ class ProductController extends Controller
            $product->price=$request->price;
            $product->desc=$request->desc;
            $product->qty=$request->qty;
+           // Add this after the image upload block
+if (!$request->hasFile('image')) {
+    $product->image = null; // or set a default image URL
+}
            if($request->hasFile('image')){
             $file=$request->file('image');
             $fileName=rand(0,999999999).'.'.$file->getClientOriginalExtension();
@@ -133,7 +175,7 @@ class ProductController extends Controller
       $product=Product::find($id);
       if($product==null){
         return response([
-            'status'=>false,
+          'status'=>false,
            'message'=>"Product not found with id",$id
         ],404);
       }
